@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import API from './API';
+import API from '../API/API';
 import { Typography, List, ListItem, ListItemText, TextField, Button, Box } from '@mui/material';
 
 function Categories() {
