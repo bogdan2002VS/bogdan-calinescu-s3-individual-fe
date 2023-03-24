@@ -6,8 +6,8 @@ const API = {
     return response.data;
   },
 
-  createCategory: async (name, description) => {
-    const response = await axios.post('http://localhost:8080/categories', { name, description });
+  createCategory: async (category) => {
+    const response = await axios.post('http://localhost:8080/categories', category);
     return response.data;
   },
 
