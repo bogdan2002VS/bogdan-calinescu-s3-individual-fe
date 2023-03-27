@@ -1,5 +1,5 @@
 import React from 'react';
-import Categories from '../src/components/Categories.jsx';
+import Categories from './src/Pages/Categories.jsx';
 import { Container } from '@mui/material';
 
 function App() {
