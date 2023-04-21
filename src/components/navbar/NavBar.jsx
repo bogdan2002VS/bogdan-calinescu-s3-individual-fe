@@ -8,12 +8,13 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-
+import { setLoggedUser } from '../../redux/userSlice';
 import MenuItem from "@mui/material/MenuItem";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import { NavLink } from "react-router-dom";
 import eat from "../../assets/eat.png";
 import { HamburgerLink, LinkStyle } from "./Navbar.styled";
+import { useDispatch } from 'react-redux';
 import { Link } from "@mui/material";
 const NavBar = () => {
   // const [isOpen, setIsOpen] = React.useState(
@@ -22,11 +23,12 @@ const NavBar = () => {
 
   const handleOut = () => {
     // setIsOpen(false);
-    localStorage.clear();
+    window.sessionStorage.clear();
   };
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const dispatch = useDispatch();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -129,9 +131,10 @@ const NavBar = () => {
                       color: "black",
                       textDecoration: "none",
                     }}
+
                   >
                     Logout
-                    {/* {userInfo ? `LogOut` : `Login`} */}
+                    {}
                   </NavLink>
                 </HamburgerLink>
               </MenuItem>
@@ -176,6 +179,7 @@ const NavBar = () => {
                   color: isActive ? "white " : "#d8dfe979",
                   textDecoration: "none",
                 })}
+                
               >
                 Logout
                 {/* {userInfo ? `LogOut` : `Login`} */}

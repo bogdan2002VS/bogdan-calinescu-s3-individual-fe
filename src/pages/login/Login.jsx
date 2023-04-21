@@ -23,6 +23,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await loginUserCall(formState);
+      console.log(res);
       toast.success(res.message);
       window.sessionStorage.setItem('tkn', res.obj.accessToken);
       dispatch(setLoggedUser(res.obj.user));

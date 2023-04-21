@@ -2,7 +2,7 @@ import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
 const PrivateRouter = () => {
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const userInfo = window.sessionStorage.getItem("tkn");
 
   return userInfo ? <Outlet /> : <Navigate to="/" />;
 };

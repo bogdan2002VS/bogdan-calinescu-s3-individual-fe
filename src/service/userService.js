@@ -1,31 +1,29 @@
 
-import axiosConfig from "../axiosConfig"
+import instance from "../axiosConfig"
+import axios from 'axios'
 
 const registerUserCall = (body) => {
-    return axiosConfig.post(`auth/signup`, body)
+    return instance.post(`auth/signup`, body)
         .then((response) => response.data)
         .catch((err) => {
             throwError(err);
         })
 }
 
-const loginUserCall = (body) => {
-    return axiosConfig.post(`auth/signin`, body)
-        .then((response) => response.data)
-        .catch((err) => {
-            throwError(err)
-        })
+const loginUserCall = async (body) =>  {
+   const response = await axios.post(`http://localhost:8080/auth/signin`, body)
+     return response.data;  
 }
 
 const checkLoginKey = () => {
-    return axiosConfig.get(`auth/checkkey`)
+    return instance.get(`auth/checkkey`)
         .then((response) => response.data)
         .catch((err) => {
             throwError(err)
         })
 }
 const getUserProfile = (username) => {
-    return axiosConfig.get(`user/${username}`)
+    return instance.get(`user/${username}`)
         .then((response) => response.data)
         .catch((err) => {
             throwError(err)
