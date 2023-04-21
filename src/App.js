@@ -1,6 +1,11 @@
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 import "./App.css";
 import AppRouter from "./router/AppRouter";
 import { ThemeProvider } from "styled-components";
+
 function App() {
   const theme = {
     colors: {
@@ -25,7 +30,9 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div>
-        <AppRouter />
+        <Provider store={store}>
+          <AppRouter />
+        </Provider>
       </div>
     </ThemeProvider>
   );

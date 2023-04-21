@@ -1,5 +1,9 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUserCall } from '../../service/userService';
+import { toast } from 'react-toastify';
+import { setLoggedUser } from '../../redux/userSlice';
+import { useNavigate } from 'react-router-dom';
 import {
   LoginStyled,
   FormContainer,
@@ -7,45 +11,52 @@ import {
   InputStyled,
   FormStyled,
   ButtonStyled,
-} from "./Login.styled";
-
+} from './Login.styled';
 
 const Login = () => {
-  const Navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const userInfo = {
-    username: `${username}`,
-    password: `${password}`,
-  };
-  // localStorage.setItem("navbar", false);
-  // console.log(userInfo);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
-    // localStorage.setItem("navbar", true);
+  const navigate = useNavigate();
+  const [formState, setFormState] = useState({ username: '', password: '' });
+  const dispatch = useDispatch();
+  const loggedUser = useSelector((state) => state.user.loggedUser);
 
-    Navigate("/home");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await loginUserCall(formState);
+      toast.success(res.message);
+      window.sessionStorage.setItem('tkn', res.obj.accessToken);
+      dispatch(setLoggedUser(res.obj.user));
+      navigate('/home');
+    } catch (err) {
+      toast.error('Incorrect username or password');
+    }
   };
+
+  const handleFormChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setFormState({ ...formState, [name]: value });
+  };
+
   return (
     <LoginStyled>
       <FormContainer>
-
         <Header>Veganny</Header>
         <FormStyled onSubmit={handleSubmit}>
           <InputStyled
             type="text"
             placeholder="Username"
             name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={formState.username}
+            onChange={handleFormChange}
             required
           />
           <InputStyled
             type="password"
             placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            value={formState.password}
+            onChange={handleFormChange}
             required
           />
           <ButtonStyled type="submit">Login</ButtonStyled>
