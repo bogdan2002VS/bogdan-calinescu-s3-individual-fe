@@ -33,9 +33,7 @@ const NavBar = () => {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  // const handleOpenUserMenu = (event) => {
-  //   setAnchorElUser(event.currentTarget);
-  // };
+
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
@@ -49,7 +47,6 @@ const NavBar = () => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
-  // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   return (
     <AppBar position="sticky" style={{ background: "#3D4F22" }}>
@@ -60,24 +57,24 @@ const NavBar = () => {
             src={eat}
             sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
           />
-            <Typography
-              variant="h5"
-              noWrap
-              component={NavLink}
-              to="/home"
-              sx={{
-                mr: 2,
-                display: { xs: "flex", md: "none" },
-                flexGrow: 1,
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              {`Veganny`}
-            </Typography>
+          <Typography
+            variant="h5"
+            noWrap
+            component={NavLink}
+            to="/home"
+            sx={{
+              mr: 2,
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            {`Veganny`}
+          </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -110,19 +107,15 @@ const NavBar = () => {
             >
               <MenuItem onClick={handleCloseNavMenu} sx={{ p: 0, m: 0 }}>
                 <HamburgerLink>
-                  {/* {userInfo ? (<> */}
-
                   <NavLink
-                    to={`/about`}
+                    to={`/create-recipe`}
                     style={{
                       color: "black",
                       textDecoration: "none",
                     }}
                   >
-                    About
+                    Create Recipe
                   </NavLink>
-
-                  {/* </>  ) : null} */}
 
                   <NavLink
                     to={`/`}
@@ -134,7 +127,6 @@ const NavBar = () => {
 
                   >
                     Logout
-                    {}
                   </NavLink>
                 </HamburgerLink>
               </MenuItem>
@@ -169,9 +161,18 @@ const NavBar = () => {
               display: { xs: "none", md: "flex" },
             }}
           >
-            {}
+            { }
             <LinkStyle>
 
+              <NavLink
+                to={`/create-recipe`}
+                style={({ isActive }) => ({
+                  color: isActive ? "white " : "#d8dfe979",
+                  textDecoration: "none",
+                })}
+              >
+                Create Recipe
+              </NavLink>
               <NavLink
                 to={`/`}
                 onClick={handleOut}
@@ -179,7 +180,7 @@ const NavBar = () => {
                   color: isActive ? "white " : "#d8dfe979",
                   textDecoration: "none",
                 })}
-                
+
               >
                 Logout
                 {/* {userInfo ? `LogOut` : `Login`} */}

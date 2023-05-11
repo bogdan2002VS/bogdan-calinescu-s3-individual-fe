@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUserCall } from '../../service/userService';
 import { toast } from 'react-toastify';
@@ -27,6 +28,7 @@ const Login = () => {
       toast.success(res.message);
       window.sessionStorage.setItem('tkn', res.obj.accessToken);
       dispatch(setLoggedUser(res.obj.user));
+      console.log(formState.username)
       navigate('/home');
     } catch (err) {
       toast.error('Incorrect username or password');
@@ -61,6 +63,11 @@ const Login = () => {
             required
           />
           <ButtonStyled type="submit">Login</ButtonStyled>
+
+                  <Link to="/register" >
+                    Sign Up
+                  </Link>
+               
         </FormStyled>
       </FormContainer>
     </LoginStyled>

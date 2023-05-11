@@ -7,6 +7,8 @@ import Details from "../pages/details/Details";
 import Home from "../pages/home/Home";
 import Login from "../pages/login/Login";
 import NotFound from "../pages/notfound/NotFound";
+import Register from "../pages/login/Register";
+import CreateRecipe from "../pages/createrecipe/CreateRecipe";
 // import { useEffect } from "react";
 
 const AppRouter = () => {
@@ -16,6 +18,7 @@ const AppRouter = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/home" element={<PrivateRouter />}>
           <Route path="/home" element={<Home />} />
         </Route>
@@ -23,6 +26,7 @@ const AppRouter = () => {
           <Route path="/details" element={<NotFound />} />
           <Route path="/details/:recipe" element={<Details />} />
         </Route>
+        <Route path="/create-recipe" element={<CreateRecipe />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
       <Footer />

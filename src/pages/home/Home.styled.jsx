@@ -7,6 +7,7 @@ const CardArea = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   overflow-x: hidden;
+  background-color: #4CAF50;
 `;
 
 export const Section = styled.section`
@@ -35,7 +36,7 @@ export const ImgContainer = styled.div`
 `;
 
 export const HomeImg = styled.img`
-  width: 30rem;
+  width: 35rem;
   /* max-width: 750px; */
 `;
 

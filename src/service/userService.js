@@ -2,13 +2,14 @@
 import instance from "../axiosConfig"
 import axios from 'axios'
 
-const registerUserCall = (body) => {
-    return instance.post(`auth/signup`, body)
-        .then((response) => response.data)
-        .catch((err) => {
-            throwError(err);
-        })
-}
+const registerUserCall = async (body) => {
+    try {
+      const response = await axios.post('http://localhost:8080/auth/signup', body);
+      return response.data;
+    } catch (err) {
+      throwError(err);
+    }
+  };
 
 const loginUserCall = async (body) =>  {
    const response = await axios.post(`http://localhost:8080/auth/signin`, body)
