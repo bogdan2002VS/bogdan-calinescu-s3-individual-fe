@@ -4,8 +4,11 @@ import styled from "styled-components";
 import { TextField, Button, IconButton, Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { createRecipe } from "../../service/recipeService";
 import CardArea, { Section } from "./CreateRecipe.style";
 
+
+// Styled components
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,111 +30,113 @@ const SubmitButton = styled(Button)`
   }
 `;
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
+// Modified CreateRecipe component
 const CreateRecipe = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const [recipe, setRecipe] = useState({
-    title: "",
-    calories: "",
-    ingredients: [""],
-    image: ""
-  });
+    const [recipe, setRecipe] = useState({
+        title: "",
+        calories: "",
+        ingredients: [""],
+        image: ""
+    });
 
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-  const handleInputChange = (e, index) => {
-    if (e.target.name === "ingredients") {
-      const updatedIngredients = [...recipe.ingredients];
-      updatedIngredients[index] = e.target.value;
-      setRecipe({ ...recipe, ingredients: updatedIngredients });
-    } else {
-      setRecipe({ ...recipe, [e.target.name]: e.target.value });
-    }
+    const handleInputChange = (e, index) => {
+        if (e.target.name === "ingredients") {
+            const updatedIngredients = [...recipe.ingredients];
+            updatedIngredients[index] = e.target.value;
+            setRecipe({ ...recipe, ingredients: updatedIngredients });
+        } else {
+            setRecipe({ ...recipe, [e.target.name]: e.target.value });
+        }
+    };
+
+    const handleAddIngredient = () => {
+        setRecipe({ ...recipe, ingredients: [...recipe.ingredients, ""] });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(recipe);
+        try {
+            createRecipe(recipe);
+            setShowSuccessMessage(true);
+            setTimeout(() => {
+                setShowSuccessMessage(false);
+                navigate("/home");
+            }, 2000);
+        }
+        catch(e){//todo showError popup //
+        }
+    
+    
   };
 
-  const handleAddIngredient = () => {
-    setRecipe({ ...recipe, ingredients: [...recipe.ingredients, ""] });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(recipe);
-    setShowSuccessMessage(true);
-    setTimeout(() => {
-      setShowSuccessMessage(false);
-      navigate("/home");
-    }, 2000);
-  };
-  
-
-  return (
-    <CardArea>
-      <Section>
-        <FormContainer>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              label="Title"
-              variant="outlined"
-              name="title"
-              value={recipe.title}
-              onChange={handleInputChange}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="Calories"
-              variant="outlined"
-              name="calories"
-              value={recipe.calories}
-              onChange={handleInputChange}
-              fullWidth
-              margin="normal"
-            />
-            {recipe.ingredients.map((ingredient, index) => (
-              <TextField
-                key={index}
-                label="Ingredient"
-                variant="outlined"
-                name="ingredients"
-                value={ingredient}
-                onChange={(e) => handleInputChange(e, index)}
-                fullWidth
-                margin="normal"
-              />
-            ))}
-            <IconButton onClick={handleAddIngredient}>
-              <AddCircleOutlineIcon />
-            </IconButton>
-            <TextField
-              label="Image URL"
-              variant="outlined"
-              name="image"
-              value={recipe.image}
-              onChange={handleInputChange}
-              fullWidth
-              margin="normal"
-            />
-            <SubmitButton variant="contained" type="submit">
-              Submit Recipe
-            </SubmitButton>
-          </form>
-        </FormContainer>
-      </Section>
-      <Snackbar
-        open={showSuccessMessage}
-        autoHideDuration={2000}
-        onClose={() => setShowSuccessMessage(false)}
-      >
-        <Alert onClose={() => setShowSuccessMessage(false)} severity="success">
-          The recipe was sent to be reviewed
-        </Alert>
-      </Snackbar>
-    </CardArea>
-  );
+    return (
+        <div>
+            <FormContainer>
+                <form onSubmit={handleSubmit}>
+                    <TextField
+                        label="Title"
+                        variant="outlined"
+                        name="title"
+                        value={recipe.title}
+                        onChange={handleInputChange}
+                        fullWidth
+                        margin="normal"
+                    />
+                    <TextField
+                        label="Calories"
+                        variant="outlined"
+                        name="calories"
+                        value={recipe.calories}
+                        onChange={handleInputChange}
+                        fullWidth
+                        margin="normal"
+                    />
+                    {recipe.ingredients.map((ingredient, index) => (
+                        <TextField
+                            key={index}
+                            label="Ingredient"
+                            variant="outlined"
+                            name="ingredients"
+                            value={ingredient}
+                            onChange={(e) => handleInputChange(e, index)}
+                            fullWidth
+                            margin="normal"
+                        />
+                    ))}
+                    <IconButton onClick={handleAddIngredient}>
+                        <AddCircleOutlineIcon />
+                    </IconButton>
+                    <TextField
+                        label="Image URL"
+                        variant="outlined"
+                        name="image"
+                        value={recipe.image}
+                        onChange={handleInputChange}
+                        fullWidth
+                        margin="normal"
+                    />
+                    <SubmitButton variant="contained" type="submit">
+                        Submit Recipe
+                    </SubmitButton>
+                </form>
+            </FormContainer>
+            <Snackbar
+                open={showSuccessMessage}
+                autoHideDuration={2000}
+                onClose={() => setShowSuccessMessage(false)}
+            >
+                <MuiAlert onClose={() => setShowSuccessMessage(false)} severity="success">
+                    The recipe was sent to be reviewed
+                </MuiAlert>
+            </Snackbar>
+        </div>
+    );
 };
 
 export default CreateRecipe;
+

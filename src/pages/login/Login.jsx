@@ -64,9 +64,9 @@ const Login = () => {
           />
           <ButtonStyled type="submit">Login</ButtonStyled>
 
-                  <Link to="/register" >
+                  <ButtonStyled to="/register" >
                     Sign Up
-                  </Link>
+                  </ButtonStyled>
                
         </FormStyled>
       </FormContainer>

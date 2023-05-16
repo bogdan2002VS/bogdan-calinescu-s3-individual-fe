@@ -4,7 +4,7 @@ const FooterStyle = styled.footer`
   display: flex;
   text-decoration: none;
   justify-content: space-between;
-  background-color: ${({ theme }) => theme.colors.navColor};
+  background-color: #046A38;
   color: black;
   font-family: "Roboto", sans-serif;
   align-items: center;

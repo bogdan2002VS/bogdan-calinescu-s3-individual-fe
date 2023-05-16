@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const Main = styled("div")`
   font-family: sans-serif;
-  background: #82a7c9;
+  background: #4CAF50;
   /* height: 100vh; */
   display: flex;
   justify-content: flex-start;
@@ -12,7 +12,7 @@ export const Main = styled("div")`
   padding: 1rem 0;
   font-family: Montserrat, sans-serif;
   gap: 1rem;
-  background-color: ${({ theme }) => theme.colors.greenColor};
+  background-color: #4CAF50};
 `;
 
 export const H1 = styled.h1`
@@ -26,7 +26,7 @@ export const FormContainer = styled.form`
   border: 2px solid #e1e6fa;
   border-radius: 1rem;
   min-height: 4rem;
-  background-color: #033f5d;
+  background-color: #4CAF50;
   @media (max-width: ${({ theme }) => theme.size.sm}) {
     flex-direction: column;
     align-items: center;
@@ -35,7 +35,7 @@ export const FormContainer = styled.form`
 
 export const ButtonStyle = styled.button`
   padding: 1rem;
-  background-color: ${({ theme }) => theme.colors.greenColor};
+  background-color: #4CAF50;
   border: 2px solid ${({ theme }) => theme.colors.buttonBg};
   border-radius: 1rem;
   color: ${({ theme }) => theme.colors.buttonBg};

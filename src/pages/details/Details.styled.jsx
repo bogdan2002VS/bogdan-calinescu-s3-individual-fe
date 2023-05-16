@@ -97,7 +97,7 @@ export const IMGDiv = styled.div`
   align-items: center;
 
   & > img {
-    /* background-color: ${({ theme }) => theme.colors.turqo}; */
+    /* background-color: #4CAF50; */
     border: 1px solid ${({ theme }) => theme.colors.navColor};
     border-radius: 1rem;
     width: 14rem;

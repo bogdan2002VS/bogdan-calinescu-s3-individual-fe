@@ -49,7 +49,7 @@ const NavBar = () => {
 
 
   return (
-    <AppBar position="sticky" style={{ background: "#3D4F22" }}>
+    <AppBar position="sticky" style={{ background: "#046A38" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Avatar
@@ -164,28 +164,53 @@ const NavBar = () => {
             { }
             <LinkStyle>
 
-              <NavLink
-                to={`/create-recipe`}
-                style={({ isActive }) => ({
-                  color: isActive ? "white " : "#d8dfe979",
-                  textDecoration: "none",
-                })}
+            
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  display: { xs: "none", md: "flex" },
+                }}
               >
-                Create Recipe
-              </NavLink>
-              <NavLink
-                to={`/`}
-                onClick={handleOut}
-                style={({ isActive }) => ({
-                  color: isActive ? "white " : "#d8dfe979",
-                  textDecoration: "none",
-                })}
+                { }
+                <LinkStyle>
 
-              >
-                Logout
-                {/* {userInfo ? `LogOut` : `Login`} */}
-              </NavLink>
-            </LinkStyle>
+                  <NavLink
+                    to={`/create-recipe`}
+                    style={({ isActive }) => ({
+                      color: isActive ? "white " : "#d8dfe979",
+                      textDecoration: "none",
+                    })}
+                  >
+                    Create Recipe
+                  </NavLink>
+
+                  {/* Add NavLink to Community-Recipe page here */}
+                  <NavLink
+                    to={`/community-recipe`}
+                    style={({ isActive }) => ({
+                      color: isActive ? "white " : "#d8dfe979",
+                      textDecoration: "none",
+                    })}
+                  >
+                    Community Recipe
+                  </NavLink>
+
+                  <NavLink
+                    to={`/`}
+                    onClick={handleOut}
+                    style={({ isActive }) => ({
+                      color: isActive ? "white " : "#d8dfe979",
+                      textDecoration: "none",
+                    })}
+
+                  >
+                    Logout
+                    {/* {userInfo ? `LogOut` : `Login`} */}
+                  </NavLink>
+                </LinkStyle>
+              </Box>
+              
+              </LinkStyle>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

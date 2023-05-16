@@ -9,6 +9,7 @@ import Login from "../pages/login/Login";
 import NotFound from "../pages/notfound/NotFound";
 import Register from "../pages/login/Register";
 import CreateRecipe from "../pages/createrecipe/CreateRecipe";
+import CommunityRecipe from "../pages/communityrecipe/CommunityRecipe";
 // import { useEffect } from "react";
 
 const AppRouter = () => {
@@ -26,7 +27,13 @@ const AppRouter = () => {
           <Route path="/details" element={<NotFound />} />
           <Route path="/details/:recipe" element={<Details />} />
         </Route>
-        <Route path="/create-recipe" element={<CreateRecipe />} />
+        <Route path="/create-recipe" element={<PrivateRouter />}>
+          <Route path="/create-recipe" element={<CreateRecipe />} />
+        </Route>
+        <Route path="/community-recipe" element={<PrivateRouter />} >
+          <Route path="/community-recipe" element={<CommunityRecipe />} />
+        </Route>
+
         <Route path="/*" element={<NotFound />} />
       </Routes>
       <Footer />
