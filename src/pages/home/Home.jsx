@@ -16,7 +16,7 @@ import { AboutTitle } from "../about/About.styled";
 import homeSvg from "../../assets//home.svg";
 
 const Home = () => {
-  const mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack", "Teatime", "Community"];
+  const mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack", "Teatime"];
   const [query, setQuery] = useState("");
   const [meal, setMeal] = useState(mealTypes[0]);
   const [gif, setGif] = useState(false);

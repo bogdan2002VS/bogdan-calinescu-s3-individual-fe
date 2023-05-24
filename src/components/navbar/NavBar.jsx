@@ -184,7 +184,7 @@ const NavBar = () => {
                     Create Recipe
                   </NavLink>
 
-                  {/* Add NavLink to Community-Recipe page here */}
+                  {/*  */}
                   <NavLink
                     to={`/community-recipe`}
                     style={({ isActive }) => ({
@@ -193,6 +193,15 @@ const NavBar = () => {
                     })}
                   >
                     Community Recipe
+                  </NavLink>
+                  <NavLink
+                    to={`/ChatRoom`}
+                    style={({ isActive }) => ({
+                      color: isActive ? "white " : "#d8dfe979",
+                      textDecoration: "none",
+                    })}
+                  >
+                    ChatRooms
                   </NavLink>
 
                   <NavLink
