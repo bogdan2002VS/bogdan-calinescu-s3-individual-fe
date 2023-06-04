@@ -158,3 +158,35 @@ export const MealIngredients = styled.div`
     width: 70%;
   }
 `;
+
+export const StarRating = styled.div`
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  margin: 20px 0;
+`;
+
+export const StarLabel = styled.label`
+  color: #ccc;
+  font-size: 24px;
+  padding: 10px;
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #FC0;
+  }
+`;
+
+export const StarRadio = styled.input`
+  display: none;
+
+  &:checked ~ ${StarLabel} {
+    color: #FC0;
+  }
+
+  &:not(:checked) ~ ${StarLabel}:hover,
+  &:not(:checked) ~ ${StarLabel}:hover ~ ${StarLabel} {
+    color: #FC0;
+  }
+`;

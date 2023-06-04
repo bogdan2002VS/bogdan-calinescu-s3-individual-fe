@@ -25,11 +25,15 @@ const Login = () => {
     try {
       const res = await loginUserCall(formState);
       console.log(res);
-      toast.success(res.message);
-      window.sessionStorage.setItem('tkn', res.obj.accessToken);
-      dispatch(setLoggedUser(res.obj.user));
-      console.log(formState.username)
-      navigate('/home');
+      if (res && res.obj && res.obj.user) {
+        toast.success(res.message);
+        window.sessionStorage.setItem('tkn', res.obj.accessToken);
+        dispatch(setLoggedUser(res.obj.user)); // updating user info to the Redux store
+        console.log(formState.username)
+        navigate('/home');
+      } else {
+        throw new Error('Unexpected response structure');
+      }
     } catch (err) {
       toast.error('Incorrect username or password');
     }
@@ -64,10 +68,10 @@ const Login = () => {
           />
           <ButtonStyled type="submit">Login</ButtonStyled>
 
-                  <ButtonStyled to="/register" >
-                    Sign Up
-                  </ButtonStyled>
-               
+          <ButtonStyled to="/register" >
+            Sign Up
+          </ButtonStyled>
+
         </FormStyled>
       </FormContainer>
     </LoginStyled>

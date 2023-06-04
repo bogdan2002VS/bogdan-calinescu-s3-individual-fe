@@ -233,7 +233,7 @@ const ChatRoom = () => {
                       <div className="avatar self">{chat.senderName}</div>
                     )}
                   </li>
-               ))}
+                ))}
               </ul>
 
               <div className="send-message">

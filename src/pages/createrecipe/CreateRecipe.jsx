@@ -65,8 +65,8 @@ const CreateRecipe = () => {
             setShowSuccessMessage(true);
             setTimeout(() => {
                 setShowSuccessMessage(false);
-                navigate("/home");
-            }, 2000);
+                navigate("/community-recipe");
+            }, 2500);
         }
         catch(e){//todo showError popup //
         }

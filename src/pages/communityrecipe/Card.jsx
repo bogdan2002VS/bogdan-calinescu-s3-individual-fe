@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CardContainer, {
@@ -11,10 +10,10 @@ import CardContainer, {
   TextDiv,
 } from "./Card.styled";
 
-const Card = ({ recipe }) => {
+const Card = ({ recipe, children }) => {
   const [flipped, setFlipped] = useState(false);
   const navigate = useNavigate();
-
+  
   return (
     <CardContainer
       onMouseEnter={() => setFlipped(true)}
@@ -33,19 +32,13 @@ const Card = ({ recipe }) => {
           <TextDiv>
             <h2 title={recipe.title}>{recipe.title}</h2>
           </TextDiv>
-          <DescDiv>
-            <p>
-              Calories: <span>{recipe.calories}</span>
-            </p>
-          </DescDiv>
           <ButtonStyleCard
-            onClick={
-              // () => navigate(`/details/${recipe.label}`, { state: recipe })
-              () => navigate(`/details/${recipe.title}`, { state: recipe })
-            }
+            onClick={() => navigate(`/detail/${recipe.title}`, { state: recipe })}
           >
             View More
           </ButtonStyleCard>
+          
+          {children} {}
         </CardBack>
       </CardInner>
     </CardContainer>
