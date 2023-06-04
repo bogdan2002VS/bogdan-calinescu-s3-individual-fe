@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { keyframes } from "styled-components";
+import { Rating, Snackbar } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
 import {
   DetailsContainer,
   LabelDiv,
@@ -8,23 +9,23 @@ import {
   IMGDiv,
   MealIngredients,
   CardDiv,
-  StarRating,
-  StarRadio,
-  StarLabel,
 } from "./Details.styled";
-import "@fortawesome/fontawesome-free/css/all.min.css";
 import { ButtonStyle } from "../../components/header/Header.styled";
 import { AboutTitle } from "../about/About.styled";
 import { IMGContainer } from "../../components/header/Card.styled";
 import diet from "../../assets/diet.svg";
 import defaultImage from "../../assets/default-image.jpg";
-import { createReview } from "../../service/reviewService"; // Import the correct reviewService
+import { createReview } from "../../service/reviewService";
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
 const Detail = () => {
   const recipe = useLocation();
-  const { id, title, calories, ingredients, image } = recipe.state;
+  const { id, title, calories, mealType, ingredients, image } = recipe.state;
+  console.log(recipe.state);
   const navigate = useNavigate();
   const [rating, setRating] = useState(null);
+  const [showFeedback, setShowFeedback] = useState(false);
 
   const handleSubmit = async () => {
     const review = {
@@ -32,19 +33,12 @@ const Detail = () => {
       stars: rating,
     };
     await createReview(review);
+    setShowFeedback(true);
   };
 
-  const starSelectedAnimation = keyframes`
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.3);
-    }
-    100% {
-      transform: scale(1);
-    }
-  `;
+  const handleCloseFeedback = () => {
+    setShowFeedback(false);
+  };
 
   return (
     <DetailsContainer>
@@ -56,6 +50,10 @@ const Detail = () => {
       </LabelDiv>
       <CardDiv>
         <MealInfo>
+        <p style={{ whiteSpace: "pre-wrap" }}>
+            {"\n"}
+            MealType: <span>{mealType}</span>
+          </p>
           <p style={{ whiteSpace: "pre-wrap" }}>
             {"\n"}
             Calories: <span>{Math.floor(calories)}</span>
@@ -80,35 +78,56 @@ const Detail = () => {
             )}
           </div>
         </MealIngredients>
-        <StarRating>
-          {[...Array(5)].map((star, i) => {
-            const ratingValue = i + 1;
-            const isChecked = ratingValue === rating;
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Rating
+            name="rating"
+            value={rating}
+            onChange={(event, newValue) => setRating(newValue)}
+          />
+          <ButtonStyle
+            style={{ marginTop: "1rem" }}
+            onClick={handleSubmit}
+          >
+            Submit Rating
+          </ButtonStyle>
 
-            return (
-              <StarLabel
-                key={i}
-                isChecked={isChecked}
-                onClick={() => setRating(ratingValue)}
-                animation={starSelectedAnimation} // Apply the animation
-              >
-                <StarRadio
-                  name="rating"
-                  value={ratingValue}
-                  onChange={() => setRating(ratingValue)}
-                />
-                <i className="fas fa-star"></i>
-              </StarLabel>
-            );
-          })}
-        </StarRating>
-        <ButtonStyle style={{ marginBottom: "5rem" }} onClick={handleSubmit}>
-          Submit Review
-        </ButtonStyle>
+          {/* New MUI Button */}
+          <ButtonStyle
+            as={Link}
+            to={{
+              pathname: `/statistics/${id}`,
+              state: recipe.state, // Pass the recipe data as the state
+            }}
+            variant="contained"
+            color="primary"
+            style={{ marginTop: "1rem" }}
+          >
+            Go to Statistics
+          </ButtonStyle>
+        </div>
       </CardDiv>
       <ButtonStyle style={{ marginBottom: "5rem" }} onClick={() => navigate(-1)}>
         Go Back
       </ButtonStyle>
+      <Snackbar
+        open={showFeedback}
+        autoHideDuration={3000}
+        onClose={handleCloseFeedback}
+      >
+        <MuiAlert
+          onClose={handleCloseFeedback}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Rating submitted successfully!
+        </MuiAlert>
+      </Snackbar>
     </DetailsContainer>
   );
 };

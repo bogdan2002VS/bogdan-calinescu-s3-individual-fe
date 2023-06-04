@@ -61,4 +61,23 @@ export const updateRecipe = async (recipeId, recipe) => {
 };
 
 
+export const searchRecipes = async (title, mealType, calories) => {
+  const url = `${BASE_URL}/recipes/search?title=${encodeURIComponent(title)}&mealType=${encodeURIComponent(
+    mealType
+  )}&calories=${encodeURIComponent(calories)}`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return await response.json();
+};
+
 

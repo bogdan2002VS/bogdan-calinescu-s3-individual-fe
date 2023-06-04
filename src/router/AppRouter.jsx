@@ -11,7 +11,9 @@ import Register from "../pages/login/Register";
 import CreateRecipe from "../pages/createrecipe/CreateRecipe";
 import CommunityRecipe from "../pages/communityrecipe/CommunityRecipe";
 import ChatRoom from "../pages/ChatRoom/ChatRoom";
-import UpdateRecipe from "../pages/createrecipe/UpdateRecipe"; // Import UpdateRecipe component
+import UpdateRecipe from "../pages/createrecipe/UpdateRecipe";
+import Statistics from "../pages/statistics/Statistics";
+
 
 const AppRouter = () => {
   return (
@@ -41,8 +43,12 @@ const AppRouter = () => {
         <Route path="/update-recipe/:recipeId" element={<PrivateRouter />}> {/* Add new route for UpdateRecipe */}
           <Route path="/update-recipe/:recipeId" element={<UpdateRecipe />} />
         </Route>
+        
         <Route path="/Chatroom" element={<PrivateRouter />} >
           <Route path="/Chatroom" element={<ChatRoom />} />
+        </Route>
+        <Route path="/statistics/:recipeId" element={<PrivateRouter />} >
+          <Route path="/statistics/:recipeId" element={<Statistics />} />
         </Route>
         <Route path="/*" element={<NotFound />} />
       </Routes>
