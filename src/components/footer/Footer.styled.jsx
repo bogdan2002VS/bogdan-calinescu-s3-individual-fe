@@ -10,9 +10,11 @@ const FooterStyle = styled.footer`
   align-items: center;
   height: 8vh;
   padding: 0 1rem;
-  position: fixed;
-  width: 100%;
+  position: relative;
+  top: auto;
   bottom: 0;
+  transform: translateY(100%); /* Initially hide the footer below the viewport */
+  transition: transform 0.3s ease; /* Add a transition for smooth animation */
 `;
 
 export const Logos = styled.div`
@@ -24,11 +26,11 @@ export const Logos = styled.div`
     color: white;
     &:hover {
       color: ${({ theme }) => theme.colors.greenColor};
-
       transform: scale(1.2);
     }
   }
 `;
+
 export const TextStyle = styled.div`
   font-size: 0.7rem;
   color: white;

@@ -16,6 +16,8 @@ export const createRecipe = async (recipe) => {
   return await response.json();
 };
 
+
+
 export const getRecipes = async () => {
   const response = await fetch(`${BASE_URL}/recipes`, {
     method: 'GET',
@@ -61,10 +63,10 @@ export const updateRecipe = async (recipeId, recipe) => {
 };
 
 
-export const searchRecipes = async (title, mealType, calories) => {
+export const searchRecipes = async (title, mealType, caloriesFrom, caloriesTo) => {
   const url = `${BASE_URL}/recipes/search?title=${encodeURIComponent(title)}&mealType=${encodeURIComponent(
     mealType
-  )}&calories=${encodeURIComponent(calories)}`;
+  )}&caloriesFrom=${encodeURIComponent(caloriesFrom)}&caloriesTo=${encodeURIComponent(caloriesTo)}`;
 
   const response = await fetch(url, {
     method: 'GET',
@@ -79,5 +81,6 @@ export const searchRecipes = async (title, mealType, calories) => {
 
   return await response.json();
 };
+
 
 

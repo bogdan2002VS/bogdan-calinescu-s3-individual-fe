@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Rating, Snackbar } from "@mui/material";
-import MuiAlert from "@mui/material/Alert";
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Rating, Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 import {
   DetailsContainer,
   LabelDiv,
@@ -9,31 +9,35 @@ import {
   IMGDiv,
   MealIngredients,
   CardDiv,
-} from "./Details.styled";
-import { ButtonStyle } from "../../components/header/Header.styled";
-import { AboutTitle } from "../about/About.styled";
-import { IMGContainer } from "../../components/header/Card.styled";
-import diet from "../../assets/diet.svg";
-import defaultImage from "../../assets/default-image.jpg";
-import { createReview } from "../../service/reviewService";
-import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+} from './Details.styled';
+import { ButtonStyle } from '../../components/header/Header.styled';
+import { AboutTitle } from '../about/About.styled';
+import { IMGContainer } from '../../components/header/Card.styled';
+import diet from '../../assets/diet.svg';
+import defaultImage from '../../assets/default-image.jpg';
+import { createReview } from '../../service/reviewService';
+import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 
 const Detail = () => {
   const recipe = useLocation();
   const { id, title, calories, mealType, ingredients, image } = recipe.state;
-  console.log(recipe.state);
+
   const navigate = useNavigate();
   const [rating, setRating] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
 
   const handleSubmit = async () => {
     const review = {
-      recipeId: id,
       stars: rating,
     };
-    await createReview(review);
-    setShowFeedback(true);
+
+    try {
+      await createReview(id, review);
+      setShowFeedback(true);
+    } catch (error) {
+      console.error('Error submitting review:', error);
+    }
   };
 
   const handleCloseFeedback = () => {
@@ -45,17 +49,17 @@ const Detail = () => {
       <LabelDiv>
         <AboutTitle>{title}</AboutTitle>
         <IMGContainer>
-          <img style={{ border: "none" }} src={diet} alt="" />
+          <img style={{ border: 'none' }} src={diet} alt="" />
         </IMGContainer>
       </LabelDiv>
       <CardDiv>
         <MealInfo>
-        <p style={{ whiteSpace: "pre-wrap" }}>
-            {"\n"}
+          <p style={{ whiteSpace: 'pre-wrap' }}>
+            {'\n'}
             MealType: <span>{mealType}</span>
           </p>
-          <p style={{ whiteSpace: "pre-wrap" }}>
-            {"\n"}
+          <p style={{ whiteSpace: 'pre-wrap' }}>
+            {'\n'}
             Calories: <span>{Math.floor(calories)}</span>
           </p>
         </MealInfo>
@@ -80,9 +84,9 @@ const Detail = () => {
         </MealIngredients>
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
           <Rating
@@ -90,29 +94,18 @@ const Detail = () => {
             value={rating}
             onChange={(event, newValue) => setRating(newValue)}
           />
-          <ButtonStyle
-            style={{ marginTop: "1rem" }}
-            onClick={handleSubmit}
-          >
+          <ButtonStyle style={{ marginTop: '1rem' }} onClick={handleSubmit}>
             Submit Rating
           </ButtonStyle>
 
-          {/* New MUI Button */}
           <ButtonStyle
-            as={Link}
-            to={{
-              pathname: `/statistics/${id}`,
-              state: recipe.state, // Pass the recipe data as the state
-            }}
-            variant="contained"
-            color="primary"
-            style={{ marginTop: "1rem" }}
+            onClick={() => navigate(`/statistics/${id}`, { state: recipe.state })}
           >
             Go to Statistics
           </ButtonStyle>
         </div>
       </CardDiv>
-      <ButtonStyle style={{ marginBottom: "5rem" }} onClick={() => navigate(-1)}>
+      <ButtonStyle style={{ marginBottom: '5rem' }} onClick={() => navigate(-1)}>
         Go Back
       </ButtonStyle>
       <Snackbar
@@ -123,7 +116,7 @@ const Detail = () => {
         <MuiAlert
           onClose={handleCloseFeedback}
           severity="success"
-          sx={{ width: "100%" }}
+          sx={{ width: '100%' }}
         >
           Rating submitted successfully!
         </MuiAlert>

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { TextField, Button, IconButton, Snackbar } from "@mui/material";
+import { TextField, Button, IconButton, Snackbar, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { getRecipes, updateRecipe } from "../../service/recipeService";
 import CardArea, { Section } from "./CreateRecipe.style";
+
+const mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack", "Teatime"];
 
 // Styled components
 const FormContainer = styled.div`
@@ -117,6 +119,22 @@ const UpdateRecipe = () => {
               fullWidth
               margin="normal"
             />
+              <FormControl fullWidth margin="normal">
+            <InputLabel id="mealType-label">Meal Type</InputLabel>
+            <Select
+              labelId="mealType-label"
+              id="mealType"
+              name="mealType"
+              value={recipe.mealType}
+              onChange={handleInputChange}
+            >
+              {mealTypes.map((type) => (
+                <MenuItem key={type} value={type}>
+                  {type}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
             {recipe.ingredients.map((ingredient, index) => (
               <TextField
                 key={index}

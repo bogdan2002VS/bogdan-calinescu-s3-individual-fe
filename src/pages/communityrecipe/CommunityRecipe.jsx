@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { getRecipes, deleteRecipe, searchRecipes } from "../../service/recipeService.js";
 import Card from "./Card";
@@ -13,6 +13,7 @@ import {
   Select,
 } from "../../components/header/Header.styled";
 import { ButtonStyleCard } from "./Card.styled";
+import { Slider, Typography } from '@mui/material';
 
 const Grid = styled.div`
   display: grid;
@@ -36,10 +37,10 @@ const UpdateButton = styled(ButtonStyleCard)`
   color: white;
 `;
 
-const CaloriesContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const CustomSlider = styled(Slider)`
+  width: 80%;
+  height: 12px;
+  margin: 20px auto;
 `;
 
 const CommunityRecipe = () => {
@@ -47,11 +48,11 @@ const CommunityRecipe = () => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(null);
   const [query, setQuery] = useState("");
   const [mealType, setMealType] = useState("");
-  const [calories, setCalories] = useState(2000);
+  const [calorieRange, setCalorieRange] = useState([0, 5000]);
 
   const mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack", "Teatime"];
   const loggedUser = useSelector((state) => state.user.loggedUser);
-
+  
   useEffect(() => {
     fetchRecipes();
   }, []);
@@ -82,7 +83,7 @@ const CommunityRecipe = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
-      const searchedRecipes = await searchRecipes(query, mealType, calories);
+      const searchedRecipes = await searchRecipes(query, mealType, calorieRange[0], calorieRange[1]);
       setRecipes(searchedRecipes);
     } catch (error) {
       console.error("Error searching recipes:", error);
@@ -97,8 +98,8 @@ const CommunityRecipe = () => {
     setMealType(e.target.value);
   };
 
-  const handleCaloriesChange = (e) => {
-    setCalories(Number(e.target.value));
+  const handleCalorieChange = (event, newValue) => {
+    setCalorieRange(newValue);
   };
 
   return (
@@ -120,32 +121,37 @@ const CommunityRecipe = () => {
               </option>
             ))}
           </Select>
-          <Input
-            type="range"
-            min="0"
-            max="5000"
-            value={calories}
-            onChange={handleCaloriesChange}
+          <Typography id="range-slider" gutterBottom>
+            Calorie Range
+          </Typography>
+          <CustomSlider
+            value={calorieRange}
+            onChange={handleCalorieChange}
+            valueLabelDisplay="auto"
+            aria-labelledby="range-slider"
+            min={0}
+            max={5000}
+            step={100}
           />
-          <CaloriesContainer>{calories} Calories</CaloriesContainer>
           <ButtonStyle type="submit" value="Submit">
             Search
           </ButtonStyle>
         </FormContainer>
+        
       </Main>
       <Grid>
         {recipes.map((recipe) => (
-          <Card key={recipe.id} recipe={recipe}>
+          <Card key={recipe.id} recipe={recipe} >
             {loggedUser && loggedUser.role === "admin" ? (
-              <>
-                <DeleteButton onClick={() => handleDelete(recipe.id)}>
-                  {deleteConfirmation === recipe.id ? "Confirm Delete" : "Delete"}
-                </DeleteButton>
-                <Link to={`/update-recipe/${recipe.id}`}>
-                  <UpdateButton>Update</UpdateButton>
-                </Link>
-              </>
-            ) : null}
+            <>
+              <DeleteButton onClick={() => handleDelete(recipe.id)}>
+                {deleteConfirmation === recipe.id ? "Confirm Delete" : "Delete"}
+              </DeleteButton>
+              <Link to={`/update-recipe/${recipe.id}`}>
+                <UpdateButton>Update</UpdateButton>
+              </Link>
+            </>
+          ) : null}
           </Card>
         ))}
       </Grid>
