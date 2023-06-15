@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { getRecipes, deleteRecipe, searchRecipes } from "../../service/recipeService.js";
 import Card from "./Card";
+import TokenManager from "../../service/tokenManager.js";
 import { useSelector } from "react-redux";
 import {
   ButtonStyle,
@@ -49,6 +50,7 @@ const CommunityRecipe = () => {
   const [query, setQuery] = useState("");
   const [mealType, setMealType] = useState("");
   const [calorieRange, setCalorieRange] = useState([0, 5000]);
+  const {role} = TokenManager.setAccessToken(window.sessionStorage.getItem('tkn'));
 
   const mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack", "Teatime"];
   const loggedUser = useSelector((state) => state.user.loggedUser);
@@ -101,7 +103,7 @@ const CommunityRecipe = () => {
   const handleCalorieChange = (event, newValue) => {
     setCalorieRange(newValue);
   };
-
+  console.log(TokenManager.setAccessToken(window.sessionStorage.getItem('tkn')))
   return (
     <>
       <Main>
@@ -142,7 +144,7 @@ const CommunityRecipe = () => {
       <Grid>
         {recipes.map((recipe) => (
           <Card key={recipe.id} recipe={recipe} >
-            {loggedUser && loggedUser.role === "admin" ? (
+            { role === "admin" ? (
             <>
               <DeleteButton onClick={() => handleDelete(recipe.id)}>
                 {deleteConfirmation === recipe.id ? "Confirm Delete" : "Delete"}

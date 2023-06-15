@@ -17,8 +17,6 @@ import {
 const Login = () => {
   const navigate = useNavigate();
   const [formState, setFormState] = useState({ username: '', password: '' });
-  const dispatch = useDispatch();
-  const loggedUser = useSelector((state) => state.user.loggedUser);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,8 +26,7 @@ const Login = () => {
       if (res && res.obj && res.obj.user) {
         toast.success(res.message);
         window.sessionStorage.setItem('tkn', res.obj.accessToken);
-        dispatch(setLoggedUser(res.obj.user)); // updating user info to the Redux store
-        console.log(formState.username)
+        
         navigate('/home');
       } else {
         throw new Error('Unexpected response structure');

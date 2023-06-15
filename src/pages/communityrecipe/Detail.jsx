@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Rating, Snackbar } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
@@ -15,9 +15,11 @@ import { AboutTitle } from '../about/About.styled';
 import { IMGContainer } from '../../components/header/Card.styled';
 import diet from '../../assets/diet.svg';
 import defaultImage from '../../assets/default-image.jpg';
-import { createReview } from '../../service/reviewService';
+import { createReview, getReviewByRecipeId } from '../../service/reviewService';
+import instance from '../../axiosConfig.mjs';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
+import { Token } from '@mui/icons-material';
 
 const Detail = () => {
   const recipe = useLocation();
@@ -26,14 +28,22 @@ const Detail = () => {
   const navigate = useNavigate();
   const [rating, setRating] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
-
-  const handleSubmit = async () => {
-    const review = {
-      stars: rating,
+  useEffect(() => {
+    const fetchReview = async () => {
+      try {
+        const review = await getReviewByRecipeId(id);
+        setRating(review.stars);
+      } catch (error) {
+        console.error('Error fetching review:', error);
+      }
     };
 
+    fetchReview();
+  }, [id]);
+
+  const handleSubmit = () => {
     try {
-      await createReview(id, review);
+      createReview(id, rating);
       setShowFeedback(true);
     } catch (error) {
       console.error('Error submitting review:', error);

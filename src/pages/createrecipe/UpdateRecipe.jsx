@@ -4,8 +4,7 @@ import styled from "styled-components";
 import { TextField, Button, IconButton, Snackbar, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { getRecipes, updateRecipe } from "../../service/recipeService";
-import CardArea, { Section } from "./CreateRecipe.style";
+import { getRecipeById, updateRecipe } from "../../service/recipeService";
 
 const mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack", "Teatime"];
 
@@ -35,28 +34,21 @@ const UpdateRecipe = () => {
   const navigate = useNavigate();
   const { recipeId } = useParams();
   const [recipe, setRecipe] = useState({});
-
-
-
-
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const fetchedRecipes = await getRecipes(recipeId);
-        if (fetchedRecipes.length > 0) {
-          const fetchedRecipe = fetchedRecipes[0];
-          setRecipe(fetchedRecipe);
-        }
+        const fetchedRecipe = await getRecipeById(recipeId);
+        setRecipe(fetchedRecipe);
+        
       } catch (error) {
         console.error("Error fetching recipe:", error);
       }
     };
     
-
     fetchRecipe();
-  }, [recipeId]);
+  },[]);
 
   const handleInputChange = (e, index) => {
     if (e.target.name === "ingredients") {
@@ -94,7 +86,6 @@ const UpdateRecipe = () => {
       // Handle error
     }
   };
-
 
   return (
     <div>

@@ -52,7 +52,7 @@ const Statistics = () => {
     '#4BC0C0',
     '#36A2EB',
   ];
-
+  console.log(recipeStatistics);
   const generatePieChartData = (recipeStatistics) => {
     const dataValues = labels.map((label) => {
       let value = recipeStatistics[label] || 0;
