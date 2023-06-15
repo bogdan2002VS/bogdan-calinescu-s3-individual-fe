@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Rating, Snackbar } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import {
@@ -18,7 +18,6 @@ import defaultImage from '../../assets/default-image.jpg';
 import { createReview, getReviewByRecipeId } from '../../service/reviewService';
 import instance from '../../axiosConfig.mjs';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
 import { Token } from '@mui/icons-material';
 
 const Detail = () => {
@@ -92,6 +91,7 @@ const Detail = () => {
             )}
           </div>
         </MealIngredients>
+        <Link to="/ChatRoom">Chat with users</Link>
         <div
           style={{
             display: 'flex',
@@ -118,6 +118,9 @@ const Detail = () => {
       <ButtonStyle style={{ marginBottom: '5rem' }} onClick={() => navigate(-1)}>
         Go Back
       </ButtonStyle>
+      
+        
+      
       <Snackbar
         open={showFeedback}
         autoHideDuration={3000}

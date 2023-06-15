@@ -1,6 +1,6 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getAverageReview } from "../../service/reviewService";
 import CardContainer, {
   ButtonStyleCard,
   CardBack,
@@ -10,10 +10,28 @@ import CardContainer, {
   IMGContainer,
   TextDiv,
 } from "./Card.styled";
+import Rating from "@mui/material/Rating";
 
-const Card = ({ recipe }) => {
+const Card = ({ recipe, children }) => {
   const [flipped, setFlipped] = useState(false);
   const navigate = useNavigate();
+  const [averageRating, setAverageRating] = useState(0);
+
+  useEffect(() => {
+    // Fetch the average review when the component mounts
+    fetchAverageRating();
+  }, []);
+
+  const fetchAverageRating = async () => {
+    try {
+      // Make an API call to fetch the average review
+      const response = await getAverageReview(recipe.id);
+      console.log(response);
+      setAverageRating(response.averageRating);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <CardContainer
@@ -23,35 +41,35 @@ const Card = ({ recipe }) => {
       <CardInner className={flipped ? "flipped" : ""}>
         <CardFront>
           <TextDiv>
-            <h2 title={recipe.label}>{recipe.label}</h2>
+            <h2 title={recipe.title}>{recipe.title}</h2>
           </TextDiv>
           <IMGContainer>
-            <img src={recipe.image} alt={recipe.label} />
+            <img src={recipe.image} alt={recipe.title} />
           </IMGContainer>
         </CardFront>
         <CardBack>
           <TextDiv>
-            <h2 title={recipe.label}>{recipe.label}</h2>
+            <h2 title={recipe.title}>{recipe.title}</h2>
           </TextDiv>
-          <DescDiv>
-            <p>
-              Dish Type: <span>{recipe.dishType[0]}</span>
-            </p>
-            <p>
-              Meal Type: <span>{recipe.mealType[0]}</span>
-            </p>
-            <p>
-              Cuisine Type: <span>{recipe.cuisineType[0]}</span>
-            </p>
-          </DescDiv>
+       
+          <Rating
+            name="average-rating"
+            value={averageRating}
+            precision={0.5}
+            readOnly
+          />
           <ButtonStyleCard
-            onClick={
-              // () => navigate(`/details/${recipe.label}`, { state: recipe })
-              () => navigate(`/details/${recipe.label}`, { state: recipe })
+            onClick={() =>
+              navigate(`/detail/${recipe.title}`, { state: recipe })
             }
           >
             View More
           </ButtonStyleCard>
+
+             
+         
+
+          {children} {}
         </CardBack>
       </CardInner>
     </CardContainer>

@@ -41,3 +41,18 @@ export const getReviewStatistics = async (recipeId) => {
     throw new Error('Failed to fetch review statistics');
   }
 };
+
+export const getAverageReview = async (recipeId) => {
+  try {
+    const response = await instance.get(`/reviews/average/${recipeId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to fetch average review');
+  }
+};

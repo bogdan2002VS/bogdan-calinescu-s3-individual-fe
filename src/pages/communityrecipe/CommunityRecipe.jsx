@@ -5,16 +5,10 @@ import { getRecipes, deleteRecipe, searchRecipes } from "../../service/recipeSer
 import Card from "./Card";
 import TokenManager from "../../service/tokenManager.js";
 import { useSelector } from "react-redux";
-import {
-  ButtonStyle,
-  FormContainer,
-  Input,
-  Main,
-  H1,
-  Select,
-} from "../../components/header/Header.styled";
+import { ButtonStyle, FormContainer, Input, Main, H1, Select } from "../../components/header/Header.styled";
 import { ButtonStyleCard } from "./Card.styled";
-import { Slider, Typography } from '@mui/material';
+import { Slider, Typography, Rating } from '@mui/material';
+import { getAverageReview } from "../../service/reviewService.js";
 
 const Grid = styled.div`
   display: grid;
@@ -44,13 +38,19 @@ const CustomSlider = styled(Slider)`
   margin: 20px auto;
 `;
 
+const RatingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
 const CommunityRecipe = () => {
   const [recipes, setRecipes] = useState([]);
   const [deleteConfirmation, setDeleteConfirmation] = useState(null);
   const [query, setQuery] = useState("");
   const [mealType, setMealType] = useState("");
   const [calorieRange, setCalorieRange] = useState([0, 5000]);
-  const {role} = TokenManager.setAccessToken(window.sessionStorage.getItem('tkn'));
 
   const mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack", "Teatime"];
   const loggedUser = useSelector((state) => state.user.loggedUser);
@@ -62,7 +62,11 @@ const CommunityRecipe = () => {
   const fetchRecipes = async () => {
     try {
       const fetchedRecipes = await getRecipes();
-      setRecipes(fetchedRecipes);
+      const recipesWithRatings = await Promise.all(fetchedRecipes.map(async recipe => {
+        const rating = await getAverageReview(recipe.id);
+        return {...recipe, rating};
+      }));
+      setRecipes(recipesWithRatings);
     } catch (error) {
       console.error("Error fetching recipes:", error);
     }
@@ -103,18 +107,13 @@ const CommunityRecipe = () => {
   const handleCalorieChange = (event, newValue) => {
     setCalorieRange(newValue);
   };
-  console.log(TokenManager.setAccessToken(window.sessionStorage.getItem('tkn')))
+
   return (
     <>
       <Main>
         <H1>Community Recipes</H1>
         <FormContainer onSubmit={handleSearch}>
-          <Input
-            type="text"
-            placeholder="Search"
-            value={query}
-            onChange={handleQueryChange}
-          ></Input>
+          <Input type="text" placeholder="Search" value={query} onChange={handleQueryChange}></Input>
           <Select name="mealTypes" id="mealTypes" onChange={handleMealTypeChange}>
             <option value="">Select Meal Type</option>
             {mealTypes.map((meal, index) => (
@@ -139,21 +138,23 @@ const CommunityRecipe = () => {
             Search
           </ButtonStyle>
         </FormContainer>
-        
       </Main>
       <Grid>
         {recipes.map((recipe) => (
-          <Card key={recipe.id} recipe={recipe} >
-            { role === "admin" ? (
-            <>
-              <DeleteButton onClick={() => handleDelete(recipe.id)}>
-                {deleteConfirmation === recipe.id ? "Confirm Delete" : "Delete"}
-              </DeleteButton>
-              <Link to={`/update-recipe/${recipe.id}`}>
-                <UpdateButton>Update</UpdateButton>
-              </Link>
-            </>
-          ) : null}
+          <Card key={recipe.id} recipe={recipe}>
+            <RatingContainer>
+              <Rating value={recipe.rating} precision={0.1} readOnly />
+            </RatingContainer>
+            {loggedUser && loggedUser.role === "admin" ? (
+              <>
+                <DeleteButton onClick={() => handleDelete(recipe.id)}>
+                  {deleteConfirmation === recipe.id ? "Confirm Delete" : "Delete"}
+                </DeleteButton>
+                <Link to={`/update-recipe/${recipe.id}`}>
+                  <UpdateButton>Update</UpdateButton>
+                </Link>
+              </>
+            ) : null}
           </Card>
         ))}
       </Grid>
