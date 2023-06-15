@@ -32,6 +32,7 @@ const Card = ({ recipe, children }) => {
           <TextDiv>
             <h2 title={recipe.title}>{recipe.title}</h2>
           </TextDiv>
+
           <ButtonStyleCard
             onClick={() => navigate(`/detail/${recipe.title}`, { state: recipe })}
           >
