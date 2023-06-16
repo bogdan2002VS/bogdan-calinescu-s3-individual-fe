@@ -23,11 +23,11 @@ export const StarLabel = styled.label`
   }
 
   ${({ isChecked }) =>
-    isChecked &&
-    css`
-      color: orange;
-      transform: scale(1.2);
-    `}
+      isChecked &&
+      css`
+        color: orange;
+        transform: scale(1.2);
+      `}
 `;
 
 export const DetailsContainer = styled.div`
@@ -36,7 +36,6 @@ export const DetailsContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
-  /* height: 85vh; */
 `;
 
 export const LabelDiv = styled.div`
@@ -45,7 +44,7 @@ export const LabelDiv = styled.div`
   justify-content: center;
   align-items: flex-start;
   gap: 1.5rem;
-  /* max-width: 90%; */
+
   @media (max-width: ${({ theme }) => theme.size.mdl}) {
     flex-direction: column;
     align-items: center;
@@ -78,21 +77,15 @@ export const CardDiv = styled.div`
   margin: 1rem 0 2rem 0;
   padding: 1rem;
   background-color: #d4f1ff;
-  /* @media (max-width: ${({ theme }) => theme.size.lg}) {
-    flex-direction: column;
-  } */
+
   @media (max-width: ${({ theme }) => theme.size.mdl}) {
     width: 70%;
     gap: 2rem;
-  }
-  @media (max-width: ${({ theme }) => theme.size.md}) {
-    /* width: 80%; */
   }
 `;
 
 export const MealInfo = styled.div`
   display: flex;
-  /* justify-content: flex-end; */
   justify-content: center;
   gap: 1rem;
   width: 30%;
@@ -127,15 +120,24 @@ export const IMGDiv = styled.div`
   align-items: center;
 
   & > img {
-    /* background-color: #4CAF50; */
     border: 1px solid ${({ theme }) => theme.colors.navColor};
     border-radius: 1rem;
     width: 14rem;
     padding: 0.5rem;
     box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    transition: all 0.3s ease-in-out 0s;
+
+    &:hover {
+      transform: scale(1.03);
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
   }
+
   @media (max-width: ${({ theme }) => theme.size.mdl}) {
-    width: 90%;
+    width: fit-content;
+    margin: 1rem 0;
+    border: 1px solid ${({ theme }) => theme.colors.navColor};
+    border-radius: 0.5rem;
   }
 `;
 
@@ -144,47 +146,57 @@ export const MealIngredients = styled.div`
   min-width: 13rem;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 1rem;
-  justify-content: center;
   border: 1px solid ${({ theme }) => theme.colors.navColor};
   border-radius: 0.5rem;
-  /* padding: 0.4rem; */
+  padding: 1rem;
+
   & > div {
     height: 14rem;
     overflow: auto;
+
     & > p {
-      text-indent: 5px;
-      justify-content: flex-start !important;
-      text-align: left;
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-family: "Patrick Hand", cursive;
+      line-height: 1.5rem;
+      letter-spacing: 0.5px;
+      color: black;
+
       & > span {
-        color: #c44a4a;
-      }
-    }
-
-    ::-webkit-scrollbar {
-      width: 0.8rem;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: ${({ theme }) => theme.colors.navColor};
-      border-radius: 0.5rem;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      border-radius: 0.5rem;
-      background: ${({ theme }) => theme.colors.turqo};
-
-      ::-webkit-scrollbar-hover {
-        opacity: 0.5;
+        color: #de3636;
       }
     }
   }
+
+  & > a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    color: #fff;
+    background-color: ${({ theme }) => theme.colors.navColor};
+    border-radius: 0.5rem;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.turqo};
+    }
+  }
+
   @media (max-width: ${({ theme }) => theme.size.mdl}) {
-    /* justify-content: center; */
-    /* width: 80%; */
-    width: 70%;
+    width: fit-content;
+    margin: 1rem 0;
+  }
+`;
+
+export const PrepLink = styled.a`
+  color: #de3636;
+  text-decoration: none;
+  transition: color 0.2s;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.turqo};
   }
 `;

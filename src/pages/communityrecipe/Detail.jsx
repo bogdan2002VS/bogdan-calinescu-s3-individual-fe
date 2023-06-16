@@ -54,87 +54,87 @@ const Detail = () => {
   };
 
   return (
-    <DetailsContainer>
-      <LabelDiv>
-        <AboutTitle>{title}</AboutTitle>
-        <IMGContainer>
-          <img style={{ border: 'none' }} src={diet} alt="" />
-        </IMGContainer>
-      </LabelDiv>
-      <CardDiv>
-        <MealInfo>
-          <p style={{ whiteSpace: 'pre-wrap' }}>
-            {'\n'}
-            MealType: <span>{mealType}</span>
-          </p>
-          <p style={{ whiteSpace: 'pre-wrap' }}>
-            {'\n'}
-            Calories: <span>{Math.floor(calories)}</span>
-          </p>
-        </MealInfo>
-        <IMGDiv>
-          <img src={image || defaultImage} alt={title} />
-        </IMGDiv>
-        <MealIngredients>
-          <div>
-            <p>
-              <span></span> Ingredients:
+      <DetailsContainer>
+        <LabelDiv>
+          <AboutTitle>{title}</AboutTitle>
+          <IMGContainer>
+            <img style={{ border: 'none' }} src={diet} alt="" />
+          </IMGContainer>
+        </LabelDiv>
+        <CardDiv>
+          <MealInfo>
+            <p style={{ whiteSpace: 'pre-wrap' }}>
+              {'\n'}
+              MealType: <span>{mealType}</span>
             </p>
-            {ingredients && Array.isArray(ingredients) ? (
-              ingredients.map((ingr, index) => (
-                <p key={index}>
-                  <span>{index + 1}</span> : {ingr}
-                </p>
-              ))
-            ) : (
-              <p>No ingredient lines available</p>
-            )}
-          </div>
-        </MealIngredients>
-        <Link to="/ChatRoom">Chat with users</Link>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Rating
-            name="rating"
-            value={rating}
-            onChange={(event, newValue) => setRating(newValue)}
-          />
-          <ButtonStyle style={{ marginTop: '1rem' }} onClick={handleSubmit}>
-            Submit Rating
-          </ButtonStyle>
-
-          <ButtonStyle
-            onClick={() => navigate(`/statistics/${id}`, { state: recipe.state })}
+            <p style={{ whiteSpace: 'pre-wrap' }}>
+              {'\n'}
+              Calories: <span>{Math.floor(calories)}</span>
+            </p>
+          </MealInfo>
+          <IMGDiv>
+            <img src={image || defaultImage} alt={title} />
+          </IMGDiv>
+          <MealIngredients>
+            <div>
+              <p>
+                <span></span> Ingredients:
+              </p>
+              {ingredients && Array.isArray(ingredients) ? (
+                  ingredients.map((ingr, index) => (
+                      <p key={index}>
+                        <span>{index + 1}</span> : {ingr}
+                      </p>
+                  ))
+              ) : (
+                  <p>No ingredient lines available</p>
+              )}
+            </div>
+            <Link to="/ChatRoom">Chat with users</Link>
+          </MealIngredients>
+          <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
           >
-            Go to Statistics
-          </ButtonStyle>
-        </div>
-      </CardDiv>
-      <ButtonStyle style={{ marginBottom: '5rem' }} onClick={() => navigate(-1)}>
-        Go Back
-      </ButtonStyle>
-      
-        
-      
-      <Snackbar
-        open={showFeedback}
-        autoHideDuration={3000}
-        onClose={handleCloseFeedback}
-      >
-        <MuiAlert
-          onClose={handleCloseFeedback}
-          severity="success"
-          sx={{ width: '100%' }}
+            <Rating
+                name="rating"
+                value={rating}
+                onChange={(event, newValue) => setRating(newValue)}
+            />
+            <ButtonStyle style={{ marginTop: '1rem' }} onClick={handleSubmit}>
+              Submit Rating
+            </ButtonStyle>
+
+            <ButtonStyle
+                onClick={() => navigate(`/statistics/${id}`, { state: recipe.state })}
+            >
+              Go to Statistics
+            </ButtonStyle>
+          </div>
+        </CardDiv>
+        <ButtonStyle style={{ marginBottom: '5rem' }} onClick={() => navigate(-1)}>
+          Go Back
+        </ButtonStyle>
+
+
+
+        <Snackbar
+            open={showFeedback}
+            autoHideDuration={3000}
+            onClose={handleCloseFeedback}
         >
-          Rating submitted successfully!
-        </MuiAlert>
-      </Snackbar>
-    </DetailsContainer>
+          <MuiAlert
+              onClose={handleCloseFeedback}
+              severity="success"
+              sx={{ width: '100%' }}
+          >
+            Rating submitted successfully!
+          </MuiAlert>
+        </Snackbar>
+      </DetailsContainer>
   );
 };
 
