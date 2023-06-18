@@ -34,7 +34,7 @@ const Register = (props) => {
       e.preventDefault();
       const res = await registerUserCall(formState);
       toast.success(res.message);
-      navigate('/login');
+      navigate('/');
     } catch (err) {
       toast.error(err);
     }

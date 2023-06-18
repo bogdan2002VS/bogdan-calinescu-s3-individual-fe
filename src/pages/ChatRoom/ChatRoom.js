@@ -57,18 +57,20 @@ const ChatRoom = () => {
         }
         break;
       case "MESSAGE":
-        publicChats.push(payloadData);
-        setPublicChats([...publicChats]);
+        setPublicChats((prevPublicChats) => [...prevPublicChats, payloadData]);
         break;
     }
   };
+  
 
   const onPrivateMessage = (payload) => {
-    console.log(payload);
     var payloadData = JSON.parse(payload.body);
     if (privateChats.get(payloadData.senderName)) {
-      privateChats.get(payloadData.senderName).push(payloadData);
-      setPrivateChats(new Map(privateChats));
+      setPrivateChats((prevPrivateChats) => {
+        const updatedChats = new Map(prevPrivateChats);
+        updatedChats.get(payloadData.senderName).push(payloadData);
+        return updatedChats;
+      });
     } else {
       let list = [];
       list.push(payloadData);

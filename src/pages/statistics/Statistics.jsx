@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Typography, Container, Card, CircularProgress, Box, Grid } from '@mui/material';
 import { Chart, ArcElement } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import { getReviewStatistics } from '../../service/reviewService';
+import { getReviewStatistics, getAverageReview } from '../../service/reviewService'; // Import getReviewStatistics and getAverageReview functions
 import { useLocation } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
 
@@ -29,19 +29,26 @@ const Statistics = () => {
       try {
         const { id } = location.state;
         const statistics = await getReviewStatistics(id);
-        setAverageRating(null);
-        if (statistics) {
-          setRecipeStatistics(statistics);
-          const average = calculateAverageRating(statistics);
-          setAverageRating(average);
-        }
+        setRecipeStatistics(statistics);
       } catch (error) {
         console.error('Error fetching recipe statistics:', error);
+      }
+    };
+
+    const fetchAverageRating = async () => {
+      try {
+        const { id } = location.state;
+        const average = await getAverageReview(id);
+        setAverageRating(average);
+      } catch (error) {
+        console.error('Error fetching average review:', error);
       } finally {
         setLoading(false);
       }
     };
+
     fetchRecipeStatistics();
+    fetchAverageRating();
   }, [location.state]);
 
   const labels = ['1', '2', '3', '4', '5'];
@@ -52,7 +59,7 @@ const Statistics = () => {
     '#4BC0C0',
     '#36A2EB',
   ];
-  console.log(recipeStatistics);
+
   const generatePieChartData = (recipeStatistics) => {
     const dataValues = labels.map((label) => {
       let value = recipeStatistics[label] || 0;

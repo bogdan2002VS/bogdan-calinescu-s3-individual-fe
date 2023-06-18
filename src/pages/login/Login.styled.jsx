@@ -2,10 +2,10 @@ import styled from "styled-components";
 
 export const LoginStyled = styled.div`
   /* background-image: linear-gradient(to right, #0098f795, #f116129e); */
-  height: 85vh;
-  background-image: url("https://picsum.photos/1600/900");
+  height: 100vh;
+  background-image: url("https://picsum.photos/1920/1080");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%; /* Updated property */
   background-position: center;
   display: flex;
   justify-content: center;
@@ -13,6 +13,7 @@ export const LoginStyled = styled.div`
   font-family: "Roboto", sans-serif;
   transition: all 1s;
 `;
+
 
 export const FormContainer = styled.div`
   transition: all 1s;

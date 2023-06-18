@@ -41,7 +41,7 @@ const CreateRecipe = () => {
     calories: "",
     ingredients: [""],
     image: "",
-    mealType: "" // Added mealType property
+    mealType: "" 
   });
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);

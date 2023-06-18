@@ -13,7 +13,7 @@ function RegisterForm(props) {
       e.preventDefault();
       const res = await registerUserCall(formState);
       toast.success(res.message);
-      navigate("/login")
+      navigate("/")
     } catch (err) {
       toast.error(err);
     }
@@ -152,7 +152,7 @@ function RegisterForm(props) {
       <div className="row justify-content-center mt-4">
         <div className="col-md-6 text-center">
           Already have an account?
-          <Link to="/login" className="fw-bold ms-2">
+          <Link to="/" className="fw-bold ms-2">
             Sign in
           </Link>
         </div>
